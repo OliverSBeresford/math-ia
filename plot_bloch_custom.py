@@ -74,9 +74,9 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True):
     ax.set_ylim(-lim, lim)
     ax.set_zlim(-lim, lim)
 
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
     ax.set_title('Unit sphere with labeled points')
 
     plt.tight_layout()
