@@ -59,7 +59,7 @@ def plot_sphere():
     return ax
 
 def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemispheres=False):
-    # Use matplotlib's default mathtext (no external LaTeX required)
+    # Use matplotlib's default mathtext
     plt.rcParams.update({'font.size': 12})
     
     if use_hemispheres:
@@ -71,8 +71,8 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemisphe
     deg_45 = math.pi / 4
     pi = math.pi
 
-    # Points to mark (as specified)
-    # Use Unicode bra-ket symbols (no LaTeX required): |0⟩, -|0⟩, |1⟩, -|1⟩
+    # Points to mark on the sphere
+    # Use Unicode bra-ket symbols: |0⟩, -|0⟩, |1⟩, -|1⟩
     points = {
         '|0⟩': (0.0, 0.0, 1.0),
         '-|0⟩': (0.0, 0.0, -1.0),
