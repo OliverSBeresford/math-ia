@@ -1,1 +1,3 @@
-# math-ia
+# Math IA
+
+This project contains some code to generate graphs I need for my Mathematics AA HL internal assessment. `bloch_custom.png` is a unit sphere (not the Bloch sphere), which is essentially the Bloch sphere but without the half angles (so it is twice the Bloch sphere, one hemisphere having a global phase). `bloch_custom_hemispheres.png` is that same sphere with the northern hemisphere (which corresponds to the Bloch sphere) highlighted.
