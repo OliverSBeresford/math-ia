@@ -75,6 +75,10 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemisphe
     ax.set_ylim(-lim, lim)
     ax.set_zlim(-lim, lim)
 
+    # Set viewing angle
+    ax.view_init(elev=20, azim=-60)
+    
+    # Labels and title
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_zlabel('z')
