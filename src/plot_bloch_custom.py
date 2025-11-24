@@ -15,14 +15,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 import math
-from tools import plot_sphere, plot_hemisperes
+from tools import plot_sphere, plot_hemispheres
 
 def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemispheres=False):
     # Use matplotlib's default mathtext
     plt.rcParams.update({'font.size': 12})
     
     if use_hemispheres:
-        ax = plot_hemisperes()
+        ax = plot_hemispheres()
         save_path = ''.join(save_path.split('.')[:-1]) + '_hemispheres.png'
     else:
         ax = plot_sphere()

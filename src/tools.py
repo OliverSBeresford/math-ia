@@ -26,7 +26,7 @@ def plot_sphere():
     
     return ax
 
-def plot_hemisperes():
+def plot_hemispheres():
     fig = plt.figure(figsize=(6, 6))
     ax = fig.add_subplot(111, projection='3d')
 
