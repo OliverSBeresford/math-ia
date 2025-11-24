@@ -28,6 +28,7 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemisphe
         ax = plot_sphere()
     
     deg_45 = math.pi / 4
+    deg_90 = math.pi / 2
     pi = math.pi
 
     # Points to mark on the sphere
@@ -41,6 +42,10 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemisphe
         '-|+⟩': (math.sin(pi + deg_45) * math.cos(0), math.sin(pi + deg_45) * math.sin(0), math.cos(pi + deg_45)),
         '|-⟩': (math.sin(-deg_45) * math.cos(0), math.sin(-deg_45) * math.sin(0), math.cos(-deg_45)),
         '-|-⟩': (math.sin(pi - deg_45) * math.cos(0), math.sin(pi - deg_45) * math.sin(0), math.cos(pi - deg_45)),
+        '|+i⟩': (math.sin(deg_45) * math.cos(deg_90), math.sin(deg_45) * math.sin(deg_90), math.cos(deg_45)),
+        '-|+i⟩': (math.sin(pi - deg_45) * math.cos(-deg_90), math.sin(pi - deg_45) * math.sin(-deg_90), math.cos(pi - deg_45)),
+        '|-i⟩': (math.sin(deg_45) * math.cos(-deg_90), math.sin(deg_45) * math.sin(-deg_90), math.cos(-deg_45)),
+        '-|-i⟩': (math.sin(pi - deg_45) * math.cos(deg_90), math.sin(pi - deg_45) * math.sin(deg_90), math.cos(pi - deg_45)),
     }
 
     # Scatter the points
