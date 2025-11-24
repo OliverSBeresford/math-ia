@@ -60,6 +60,12 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemisphe
         off = 1.2
         ax.text(x * off, y * off, z * off, label, fontsize=14, ha='center', va='center')
 
+    # Draw full x/y/z axes through the sphere (from -1 to 1)
+    axis_args = dict(color='k', linewidth=1)
+    ax.plot([-1, 1], [0, 0], [0, 0], **axis_args)
+    ax.plot([0, 0], [-1, 1], [0, 0], **axis_args)
+    ax.plot([0, 0], [0, 0], [-1, 1], **axis_args)
+    
     # Fix aspect ratio to be equal
     ax.set_box_aspect((1, 1, 1))
 
