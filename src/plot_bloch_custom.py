@@ -17,7 +17,7 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 import math
 from tools import plot_sphere, plot_hemispheres
 
-def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemispheres=False):
+def plot_sphere_and_points(save_path='images/bloch_custom.png', show=True, use_hemispheres=False):
     # Use matplotlib's default mathtext
     plt.rcParams.update({'font.size': 12})
     
