@@ -16,6 +16,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 import math
 
+OPACITY = 0.20
+
 def plot_hemisperes():
     fig = plt.figure(figsize=(6, 6))
     ax = fig.add_subplot(111, projection='3d')
@@ -27,7 +29,7 @@ def plot_hemisperes():
     y_red = np.outer(np.sin(u_red), np.sin(v_red))
     z_red = np.outer(np.ones_like(u_red), np.cos(v_red))
 
-    ax.plot_surface(x_red, y_red, z_red, rstride=4, cstride=4, color='red', alpha=0.35, linewidth=0)
+    ax.plot_surface(x_red, y_red, z_red, rstride=4, cstride=4, color='red', alpha=OPACITY, linewidth=0)
     
     # Create blue hemisphere
     u_blue = np.linspace(0, 2 * np.pi, 120)
@@ -36,7 +38,7 @@ def plot_hemisperes():
     y_blue = np.outer(np.sin(u_blue), np.sin(v_blue))
     z_blue = np.outer(np.ones_like(u_blue), np.cos(v_blue))
     
-    ax.plot_surface(x_blue, y_blue, z_blue, rstride=4, cstride=4, color='lightblue', alpha=0.35, linewidth=0)
+    ax.plot_surface(x_blue, y_blue, z_blue, rstride=4, cstride=4, color='lightblue', alpha=OPACITY, linewidth=0)
     
     return ax
 
@@ -54,7 +56,7 @@ def plot_sphere():
     y = np.outer(np.sin(u), np.sin(v))
     z = np.outer(np.ones_like(u), np.cos(v))
 
-    ax.plot_surface(x, y, z, rstride=4, cstride=4, color='lightblue', alpha=0.35, linewidth=0)
+    ax.plot_surface(x, y, z, rstride=4, cstride=4, color='lightblue', alpha=OPACITY, linewidth=0)
     
     return ax
 
@@ -88,13 +90,13 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemisphe
     xs = [p[0] for p in points.values()]
     ys = [p[1] for p in points.values()]
     zs = [p[2] for p in points.values()]
-    ax.scatter(xs, ys, zs, color='red', s=60)
+    ax.scatter(xs, ys, zs, color='red', s=20)
 
     # Annotate labels with a small offset so they don't overlap the marker
-    for label, (x0, y0, z0) in points.items():
+    for label, (x, y, z) in points.items():
         # offset factor (push label slightly outward)
-        off = 1.06
-        ax.text(x0 * off, y0 * off, z0 * off, label, fontsize=14, ha='center', va='center')
+        off = 1.2
+        ax.text(x * off, y * off, z * off, label, fontsize=14, ha='center', va='center')
 
     # Fix aspect ratio to be equal
     ax.set_box_aspect((1, 1, 1))
@@ -118,3 +120,4 @@ def plot_sphere_and_points(save_path='bloch_custom.png', show=True, use_hemisphe
 
 if __name__ == '__main__':
     plot_sphere_and_points(use_hemispheres=True)
+    plot_sphere_and_points(use_hemispheres=False)
