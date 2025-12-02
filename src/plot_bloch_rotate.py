@@ -84,7 +84,7 @@ def plot_bloch_rotation(theta, phi, save_path=None, show=True, n_steps=100):
     ax.set_zlim(-lim, lim)
 
     # View angle and labels
-    ax.view_init(elev=20, azim=-60)
+    ax.view_init(elev=args.elevate, azim=args.azimuth)
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_zlabel('z')
@@ -95,7 +95,7 @@ def plot_bloch_rotation(theta, phi, save_path=None, show=True, n_steps=100):
     if save_path is None:
         # create images dir if missing
         os.makedirs('images', exist_ok=True)
-        save_path = os.path.join('images', f'bloch_rotate_theta{theta:.3g}_phi{phi:.3g}.png')
+        save_path = os.path.join('images', f'bloch_rotate_theta{theta:.3g}_phi{phi:.3g}_e{args.elevate:.3g}_a{args.azimuth:.3g}.png')
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=300)
@@ -110,6 +110,8 @@ def _parse_args():
     p.add_argument('--theta', type=float, default=45.0, help='Polar angle θ (degrees by default)')
     p.add_argument('--phi', type=float, default=30.0, help='Azimuthal angle φ (degrees by default)')
     p.add_argument('--radians', action='store_true', help='Interpret theta/phi as radians')
+    p.add_argument('--elevate', type=float, default=20.0, help='Elevation angle for 3D view')
+    p.add_argument('--azimuth', type=float, default=-60.0, help='Azimuth angle for 3D view')
     p.add_argument('--no-show', dest='show', action='store_false', help='Do not show interactive window')
     p.add_argument('--steps', type=int, default=120, help='Number of samples along rotation path')
     return p.parse_args()
