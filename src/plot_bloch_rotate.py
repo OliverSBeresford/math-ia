@@ -21,6 +21,24 @@ import matplotlib.pyplot as plt
 from tools import plot_sphere
 from quantum_state import QuantumState
 
+def plot_path(ax, psi0, total_angle, axis = 'x', n_steps=100):
+    # Path: sample rotation angles from 0 to pi and apply to psi0
+    thetas = np.linspace(0.0, total_angle, n_steps)
+    # Build path by rotating a fresh copy of the original state for each sample.
+    # This avoids cumulative in-place rotations that produce incorrect paths.
+    if axis == 'x':
+        path = np.array([QuantumState(theta=psi0.theta, phi=psi0.phi).rotate_x(t) for t in thetas])
+    elif axis == 'y':
+        path = np.array([QuantumState(theta=psi0.theta, phi=psi0.phi).rotate_y(t) for t in thetas])
+    elif axis == 'z':
+        path = np.array([QuantumState(theta=psi0.theta, phi=psi0.phi).rotate_z(t) for t in thetas])
+    else:
+        raise ValueError(f"Unknown rotation axis '{axis}'")
+
+    # Plot the path on the sphere surface
+    ax.plot(path[:, 0], path[:, 1], path[:, 2], color='orange', linewidth=2, label='rotation path')
+
+
 def plot_bloch_rotation(theta, phi, save_path=None, show=True, n_steps=100):
     plt.rcParams.update({'font.size': 12})
 
@@ -37,7 +55,7 @@ def plot_bloch_rotation(theta, phi, save_path=None, show=True, n_steps=100):
     # Plot base points
     for label, p in base_points.items():
         ax.scatter([p[0]], [p[1]], [p[2]], color='red', s=30)
-        ax.text(*(p * 1.08), label, fontsize=12, ha='center', va='center')
+        ax.text(*(p * 1.1), label, fontsize=12, ha='center', va='center')
 
     # Initial state (keep this object unchanged)
     psi0 = QuantumState(theta=theta, phi=phi)
@@ -47,18 +65,17 @@ def plot_bloch_rotation(theta, phi, save_path=None, show=True, n_steps=100):
 
     # Rotation: 180 degrees (pi radians) about x-axis
     total_angle = math.pi
-
-    # Path: sample rotation angles from 0 to pi and apply to psi0
-    thetas = np.linspace(0.0, total_angle, n_steps)
-    # Build path by rotating a fresh copy of the original state for each sample.
-    # This avoids cumulative in-place rotations that produce incorrect paths.
-    path = np.array([QuantumState(theta=theta, phi=phi).rotate_x(t) for t in thetas])
-
-    # Plot the path on the sphere surface
-    ax.plot(path[:, 0], path[:, 1], path[:, 2], color='orange', linewidth=2, label='rotation path')
+    
+    # Plot the rotation path
+    plot_path(ax, psi0, total_angle, axis=args.axis, n_steps=n_steps)
 
     # Final state
-    psi1_coords = QuantumState(theta=theta, phi=phi).rotate_x(total_angle)
+    if args.axis == 'x':
+        psi1_coords = QuantumState(theta=theta, phi=phi).rotate_x(total_angle)
+    elif args.axis == 'y':
+        psi1_coords = QuantumState(theta=theta, phi=phi).rotate_y(total_angle)
+    elif args.axis == 'z':
+        psi1_coords = QuantumState(theta=theta, phi=phi).rotate_z(total_angle)
     ax.scatter([psi1_coords[0]], [psi1_coords[1]], [psi1_coords[2]], color='green', s=60, label='rotated')
     ax.text(*(psi1_coords * 1.12), 'ψ₁', color='green', fontsize=12, ha='center', va='center')
 
@@ -84,18 +101,18 @@ def plot_bloch_rotation(theta, phi, save_path=None, show=True, n_steps=100):
     ax.set_zlim(-lim, lim)
 
     # View angle and labels
-    ax.view_init(elev=args.elevate, azim=args.azimuth)
+    ax.view_init(elev=args.elevate, azim=args.azimuth, roll=args.roll)
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_zlabel('z')
-    ax.set_title(f'Rotation of state (θ={theta:.3g}, φ={phi:.3g}) about x by 180°')
+    ax.set_title(f'Rotation of state (θ={theta:.3g}, φ={phi:.3g}) about {args.axis} by 180°')
 
     ax.legend(loc='upper left')
 
     if save_path is None:
         # create images dir if missing
         os.makedirs('images', exist_ok=True)
-        save_path = os.path.join('images', f'bloch_rotate_theta{theta:.3g}_phi{phi:.3g}_e{args.elevate:.3g}_a{args.azimuth:.3g}.png')
+        save_path = os.path.join('images', f'bloch_rotate_{args.axis}_theta{theta:.3g}_phi{phi:.3g}_e{args.elevate:.3g}_a{args.azimuth:.3g}.png')
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=300)
@@ -112,8 +129,10 @@ def _parse_args():
     p.add_argument('--radians', action='store_true', help='Interpret theta/phi as radians')
     p.add_argument('--elevate', type=float, default=20.0, help='Elevation angle for 3D view')
     p.add_argument('--azimuth', type=float, default=-60.0, help='Azimuth angle for 3D view')
+    p.add_argument('--roll', type=float, default=0.0, help=argparse.SUPPRESS)
     p.add_argument('--no-show', dest='show', action='store_false', help='Do not show interactive window')
     p.add_argument('--steps', type=int, default=120, help='Number of samples along rotation path')
+    p.add_argument('--axis', default='x', choices=['x', 'y', 'z'], help='Axis to rotate about (default: x)')
     return p.parse_args()
 
 
