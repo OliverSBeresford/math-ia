@@ -69,5 +69,21 @@ class QuantumState:
         
         return self.bloch_coordinates()
     
+    def rotate_y(self, angle):
+        """Rotate the state by 'angle' radians about the y-axis."""
+        ry = np.array([[np.cos(angle / 2), -np.sin(angle / 2)],
+                       [np.sin(angle / 2), np.cos(angle / 2)]], dtype=complex)
+        self.apply_gate(ry)
+        
+        return self.bloch_coordinates()
+    
+    def rotate_z(self, angle):
+        """Rotate the state by 'angle' radians about the z-axis."""
+        rz = np.array([[np.exp(-1j * angle / 2), 0],
+                       [0, np.exp(1j * angle / 2)]], dtype=complex)
+        self.apply_gate(rz)
+        
+        return self.bloch_coordinates()
+    
     def __str__(self):
         return f"QuantumState(vector={self.vector}, theta={self.theta}, phi={self.phi})"
