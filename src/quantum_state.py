@@ -85,5 +85,16 @@ class QuantumState:
         
         return self.bloch_coordinates()
     
+    def rotate_about_axis(self, axis, angle):
+        """Rotate the state by 'angle' radians about an arbitrary axis ('x', 'y', or 'z')."""
+        if axis == 'x':
+            return self.rotate_x(angle)
+        elif axis == 'y':
+            return self.rotate_y(angle)
+        elif axis == 'z':
+            return self.rotate_z(angle)
+        else:
+            raise ValueError(f"Unknown rotation axis '{axis}'")
+    
     def __str__(self):
         return f"QuantumState(vector={self.vector}, theta={self.theta}, phi={self.phi})"

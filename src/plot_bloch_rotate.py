@@ -26,14 +26,7 @@ def plot_path(ax, psi0, total_angle, axis = 'x', n_steps=100):
     thetas = np.linspace(0.0, total_angle, n_steps)
     # Build path by rotating a fresh copy of the original state for each sample.
     # This avoids cumulative in-place rotations that produce incorrect paths.
-    if axis == 'x':
-        path = np.array([QuantumState(theta=psi0.theta, phi=psi0.phi).rotate_x(t) for t in thetas])
-    elif axis == 'y':
-        path = np.array([QuantumState(theta=psi0.theta, phi=psi0.phi).rotate_y(t) for t in thetas])
-    elif axis == 'z':
-        path = np.array([QuantumState(theta=psi0.theta, phi=psi0.phi).rotate_z(t) for t in thetas])
-    else:
-        raise ValueError(f"Unknown rotation axis '{axis}'")
+    path = np.array([QuantumState(theta=psi0.theta, phi=psi0.phi).rotate_about_axis(axis, t) for t in thetas])
 
     # Plot the path on the sphere surface
     ax.plot(path[:, 0], path[:, 1], path[:, 2], color='orange', linewidth=2, label='rotation path')
